@@ -1,0 +1,13 @@
+Django==4.2
+Markdown==3.6
+pymysql==1.1.1
+line-bot-sdk==3.11.0
+torch==2.4.0
+openai-whisper==20231117
+deep-translator==1.11.4
+soundfile==0.12.1
+librosa==0.10.2
+numpy==1.26.4
+channels==3.0.5
+channels-redis==4.2.0
+google-cloud-speech==2.27.0

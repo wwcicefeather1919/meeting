@@ -1,0 +1,22 @@
+				
+			</div><!-- /.col-xs-12 main -->
+		</div><!--/.row-->
+	</div><!--/.page-container-->
+    <div class="big_screenft">{% include "../includeBtn/btn_footer.html"%}</div>
+	{% include "../includeBtn/btn_js.html"%}
+	{% include "../includeBtn/btn_pikaday_js.html"%}
+</body>
+<!--下拉搜尋套件start-->
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<!-- Chosen v1.8.2 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.2/chosen.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.2/chosen.jquery.min.js"></script>
+<script>
+	$(function(){
+		$('.ProductSearch').chosen({
+			search_contains: true
+		});
+	});
+</script>
+<!--下拉搜尋套件end-->
+</html>

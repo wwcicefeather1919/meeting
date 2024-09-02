@@ -1,0 +1,125 @@
+{% include "includeBtn/header.html"%}
+{% for item in datas %}
+
+<form class="" name="tform" id="tform" method="post" action="/{{features}}/senddata"  enctype="multipart/form-data">
+	{% csrf_token %}
+	<input type="hidden" name="id" value="{{item.Eid}}">
+	<div class="div-table info-list">
+		<div class="div-tr infoDataBox ">
+			<div class="div-td td-odd">系統編號</div>
+			<div class="div-td td-even">
+				<input type="text" class="form-control" name="Eid" placeholder="(系統取得)" value="{{item.Eid}}" readonly />
+			</div>
+			<div class="div-td td-odd">建檔日期</div>
+			<div class="div-td td-even">
+				<input class="-js-datePick2" name="NDate" id="NDate" value="{% if item.MMid is none %}{{nowdate}}{%else%}{{item.NDate|date:"Y-m-d"}}{%endif%}" readonly />
+			</div>
+		</div>
+		<div class="div-tr ">
+			
+			<div class="div-td td-odd">狀態</div>
+			<div class="div-td td-even">
+				<div class="radio radio-danger radio-inline">
+					<input type="radio" id="IsOnline1" value="1" name="IsOnline"  {% if item.IsOnline == 1 %} checked {%endif%}>
+					<label for="IsOnline1"> 上線 </label>
+				</div>	
+				<div class="radio radio-danger radio-inline">
+					<input type="radio" id="IsOnline0" value="0" name="IsOnline"  {% if item.IsOnline == 0 %} checked {%endif%} >
+					<label for="IsOnline0"> 下線 </label>
+				</div>
+			</div>
+			<div class="div-td td-odd">鎖定<font color="#FF1F00">＊</font></div>
+			<div class="div-td td-even">
+				<div class="radio radio-danger radio-inline">
+					<input type="radio" id="IsLock1" value="1" name="IsLock" {% if item.IsLock == 1 %} checked {%endif%}>
+					<label for="IsLock1"> 是 </label>
+				</div>	
+				<div class="radio radio-danger radio-inline">
+					<input type="radio" id="IsLock0" value="0" name="IsLock" {% if item.IsLock == 0 %} checked {%endif%}>
+					<label for="IsLock0"> 否 </label>
+				</div>
+			</div>
+		</div>
+		<div class="div-tr infoDataBox ">
+			<div class="div-td td-odd">代號<font color="#FF1F00">＊</font></div>
+			<div class="div-td td-even">
+				<input type="text" class="form-control" name="EmpNo" id="EmpNo" placeholder="" value="{{item.EmpNo}}" />
+			</div>
+			<div class="div-td td-odd">姓名<font color="#FF1F00">＊</font></div>
+			<div class="div-td td-even">
+				<input type="text" class="form-control" name="Name" id="Name" value="{{item.Name}}" >
+			</div>
+			
+		</div>
+
+		<div class="div-tr infoDataBox ">
+			<div class="div-td td-odd">行動電話</div>
+			<div class="div-td td-even">
+				<input type="text" class="form-control" name="Mobile" id="Mobile" value="{{item.Mobile}}"  >
+			</div>
+			<div class="div-td td-odd">其他電話</div>
+			<div class="div-td td-even">
+				<input type="text" class="form-control" name="Tel" id="Tel" value="{{item.Tel}}" >
+			</div>
+		</div>
+		
+		<div class="div-tr infoDataBox ">
+			<div class="div-td td-odd">帳號</div>
+			<div class="div-td td-even">
+				<input type="text" class="form-control" name="Account" id="Account" value="{{item.Account}}" placeholder="請輸入手機" >
+			</div>
+			<div class="div-td td-odd">密碼</div>
+			<div class="div-td td-even">
+				<input type="password" class="form-control" name="pwd" id="pwd" value="" placeholder="s" >
+			</div>
+		</div>
+		<div class="div-tr infoDataBox ">
+			<div class="div-td td-odd">管理者</div>
+			<div class="div-td td-even">
+				<div class="radio radio-danger radio-inline">
+					<input type="radio" id="IsAdmin1" value="1" name="IsAdmin"   {% if item.IsAdmin == 0 %} checked {%endif%}>
+					<label for="IsAdmin1"> 是 </label>
+				</div>	
+				<div class="radio radio-danger radio-inline">
+					<input type="radio" id="IsAdmin0" value="0" name="IsAdmin"  {% if item.IsAdmin == 0 %} checked {%endif%}>
+					<label for="IsAdmin0"> 否 </label>
+				</div>
+			</div>
+			<div class="div-td td-odd"> </div>
+			<div class="div-td td-even">
+				
+			</div>
+		</div>
+		
+	</div>
+	<div class="infoSearchBtn">
+		<button id="IsSend" type="button">送出</button>
+		<button type="reset">重填</button>
+		<button type ="button" onclick="document.location='/{{features}}/list'" value="回上頁">回上頁</button>
+	</div>
+</form>
+
+<script type="text/javascript">
+	$("#IsSend").click(function(){
+		let g = true;
+		let m = ['Name','Account'];
+		let s = ['姓名未填寫','帳號未填寫'];
+		for(i=0;i<m.length;i++){
+			if($("#"+m[i]).val()=='' || $("#"+m[i]).val()=='0' ){
+				alert(s[i]);
+				g = false;
+				break;
+			}
+		}
+		if(!g){return false};
+		$("#tform").submit();
+	});	
+</script>
+{%endfor%}
+<script type="text/javascript">
+	{% if msg %}
+	alert('{{msg}}')
+	document.location='/{{features}}/list';
+	{% endif%}
+</script>
+{% include "includeBtn/footer.html"%}

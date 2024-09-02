@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{Subject}}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f0f0f0;
+        }
+        .chat-container {
+            margin-top: 50px;
+        }
+        .chat-box {
+            height: 500px;
+            overflow-y: scroll;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .message.sent {
+            flex-direction: row-reverse;
+            align-items: flex-end;
+            text-align: right;
+        }
+        .message.received {
+            flex-direction: row;
+            align-items: flex-start;
+            text-align: left;
+        }
+        .message .info {
+            display: flex;
+            /*align-items: center;*/
+            margin-bottom: 5px;
+        }
+        .message.sent .info {
+            flex-direction: row-reverse;
+            margin-left: auto;
+        }
+        .message img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 10px;
+        }
+        .message .bubble {
+            max-width: 80%; /* Set max width to 80% of the container */
+            padding: 10px 15px;
+            border-radius: 15px;
+            color: #ffffff;
+            word-wrap: break-word;
+            display: inline-block;
+        }
+        .message.sent .bubble {
+            background-color: #007aff;
+            color: #ffffff;
+            border-radius: 15px 15px 0 15px;
+        }
+        .message.received .bubble {
+            background-color: #e0e0e0;
+            color: #000000;
+            border-radius: 15px 15px 15px 0;
+        }
+        .message .sender-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .members-list {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .member-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .member-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .input-group {
+            margin-top: 10px;
+            position: relative;
+        }
+        .input-group .input-group-append {
+            cursor: pointer;
+        }
+        .input-group .input-group-text {
+            border-radius: 0 10px 10px 0;
+        }
+        .input-group .form-control {
+            border-radius: 10px 0 0 10px;
+        }
+        .mic-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+        .mic-container i {
+            font-size: 18px;
+        }
+        .audio-visualizer {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            height: 20px;
+            background-color: #007aff;
+            border-radius: 10px;
+            position: relative;
+        }
+        .audio-visualizer .bar {
+            height: 100%;
+            background-color: #ffffff;
+            width: 0;
+            border-radius: 10px;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container chat-container">
+        <div class="row">
+            <!-- Chat Box -->
+            <div class="col-md-8">
+                <div class="chat-box" id="chat-box">
+                    <!-- Messages will be loaded here by JavaScript -->
+                    {% if chatarray %}
+                        {% for row in chatarray %}
+                            <div class="message {{ row.type }}">
+                                <div class="info">
+                                    <img src="{% static "img/11.jpg"%}" alt="{{ row.name }}">
+                                    <div>
+                                        <div class="sender-name">{{ row.name }}</div>
+                                        <div class="bubble">{{ row.Contents }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="message" placeholder="輸入訊息...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" id="send-message">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <!--div class="mic-container" id="mic-button">
+                        <i class="fas fa-microphone"></i>
+                    </div-->
+                </div>
+                <div class="audio-visualizer" id="audio-visualizer">
+                    <div class="bar" id="audio-bar"></div>
+                </div>
+                <button id="start-recording" class="btn btn-primary">開始收音</button>
+                <button id="stop-recording" class="btn btn-danger">停止收音</button>
+                <div id="status-message"></div>
+                <div id="transcript" style="height: 200px; overflow-y: scroll; border: 1px solid #ccc; margin-top: 10px; padding: 10px;"></div>
+            </div>
+            <!-- Members List -->
+            <div class="col-md-4">
+                <div class="members-list" id="members-list">
+                    <!-- Members will be loaded here by JavaScript -->
+                    {% if members %}
+                        {% for row in members %}
+                            <div class="member-item">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static "img/11.jpg"%}" alt="Profile Picture">
+                                    <div>
+                                        <div class="username">姓名：{{ row.Name }}</div>
+                                        <div class="title">職稱：{{ row.Title }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div>
+                    <h4>顯示語系</h4>
+                    <input  type="radio" name="langu[]" id="langu_tw" value="tw" {% if Langu == 'tw' %} checked {% endif %} >繁體中文
+                    <input  type="radio" name="langu[]" id="langu_en" value="en" {% if Langu == 'en' %} checked {% endif %} >英文
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        
+        $(document).ready(function() { 
+            $("input[name='langu[]']").click(function() {
+                let langu = ''
+                $("input[name='langu[]']").each(function() {
+                    if($(this).prop("checked")==true){
+                        langu = $(this).val() 
+                    }                
+                });
+                document.location = '/chatroom/room/{{Secret}}/{{Eid}}/' + langu ;
+            });
+
+
+            function loadMessages() {
+                $.ajax({
+                    url: '/chatroom/loadmsg',
+                    method: 'post',
+                    data: {
+                        'MMid': '{{MMid}}' ,
+                        'Eid': '{{Eid}}' ,
+                        'Langu': '{{Langu}}' ,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(data) {
+                        if(data!=""){
+                            console.log(data);
+                            $('#chat-box').append(data);
+                            scrollToBottom();
+                        }
+                    }
+                });
+            }
+
+            function loadMembers() {
+                $.ajax({
+                    url: '/chatroom/loadmember/{{MMid}}',
+                    method: 'post',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(data) {
+                        if(data){
+                            $("#members-list").html('');
+                            data = JSON.parse(data);
+                            data.forEach(item => {
+                                $("#members-list").append('<div class="member-item"><div class="d-flex align-items-center"><img src="{% static "img/11.jpg"%}" alt="Profile Picture"><div><div class="username">姓名：'+ item.Name +'</div><div class="title">職稱：'+ item.Title +'</div></div></div></div>');
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // 处理错误响应
+                        console.log('Error: ' + error);
+                    }
+                });
+            }
+
+            function sendMessage() {
+                var message = $('#message').val();
+                if (message.trim() !== '') {
+                    $.ajax({
+                        url: '/chatroom/sendmsg',
+                        method: 'POST',
+                        data: { 
+                            'message': message ,
+                            'MMid': '{{MMid}}' ,
+                            'Eid': '{{Eid}}' ,
+                            'Langu': '{{Langu}}' ,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
+                        success: function() {
+                            $('#message').val('');
+                            loadMessages();
+                        }
+                    });
+                }
+            }
+
+            $('#send-message').click(function() {
+                sendMessage();
+            });
+
+            $('#message').keypress(function(e) {
+                if (e.which === 13) {
+                    sendMessage();
+                    e.preventDefault();
+                }
+            });
+
+            function scrollToBottom() {
+                var chatBox = $('#chat-box');
+                chatBox.scrollTop(chatBox[0].scrollHeight);
+            }
+
+            function startRecording() {
+                try{
+                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                        navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+                            var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                            var analyser = audioContext.createAnalyser();
+                            var source = audioContext.createMediaStreamSource(stream);
+                            source.connect(analyser);
+                            analyser.fftSize = 256;
+                            var bufferLength = analyser.frequencyBinCount;
+                            var dataArray = new Uint8Array(bufferLength);
+    
+                            function updateVisualizer() {
+                                analyser.getByteFrequencyData(dataArray);
+                                var sum = 0;
+                                for (var i = 0; i < dataArray.length; i++) {
+                                    sum += dataArray[i];
+                                }
+                                var average = sum / dataArray.length;
+                                $('#audio-bar').css('width', average + '%');
+                                requestAnimationFrame(updateVisualizer);
+                            }
+    
+                            updateVisualizer();
+    
+                            $('#mic-button').on('click', function() {
+                                $('#audio-visualizer').css('display','block');
+                            });
+                            startThread();
+                        });
+                    } else {
+                        alert('你的瀏覽器不支援錄音功能。');
+                    }
+                }catch (e) {
+                    alert('查無預設的收音設備。');
+                }
+            }
+
+            $('#mic-button').on('click', function() {
+                startRecording();
+            });
+
+            //對話5秒抓一次
+            setInterval(function() {
+                loadMessages();
+            }, 5000);
+            // 成員10秒抓一次
+            setInterval(function() {
+                loadMembers();
+            }, 10000);
+
+            scrollToBottom();
+        });
+    </script>
+    <script src="{% static 'js/audio_recording.js' %}"></script>
+    <input type="hidden" id="MMid" value="{{ MMid }}">
+    <input type="hidden" id="Eid" value="{{ Eid }}">
+</body>
+</html>

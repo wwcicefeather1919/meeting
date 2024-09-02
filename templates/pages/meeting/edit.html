@@ -1,0 +1,114 @@
+{% include "includeBtn/header.html"%}
+{% for item in datas %}
+<form class="" name="tform" id="tform" method="post" action="/{{features}}/senddata"  enctype="multipart/form-data">
+	{% csrf_token %}
+	<input type="hidden" name="id" value="{{item.MMid}}">
+	<div class="div-table info-list">
+		<div class="div-tr infoDataBox ">
+			<div class="div-td td-odd">系統編號</div>
+			<div class="div-td td-even">
+				<input type="text" class="form-control" name="Eid" placeholder="(系統取得)" value="{{item.MMid}}" readonly />
+			</div>
+			<div class="div-td td-odd">建檔日期</div>
+			<div class="div-td td-even">
+				<input class="-js-datePick2" name="Ndate" id="Ndate" value="{% if item.MMid is none %}{{nowdate}}{%else%}{{item.NDate|date:"Y-m-d"}}{%endif%}" readonly />
+			</div>
+		</div>
+		<div class="div-tr">
+			<div class="div-td td-odd">會議日期</div>
+			<div class="div-td td-even">
+				<input class="-js-datePick2" name="Mdate" id="Mdate" value="{% if item.MMid is none %}{{nowdate}}{%else%}{{item.Mdate|date:"Y-m-d"}}{%endif%}" />
+			</div>
+			<div class="div-td td-odd">翻譯語系</div>
+			<div class="div-td td-even">
+				<div class="td checkbox checkbox-danger">
+					<input type="checkbox" name="language[]" id="language_tw" value="tw" class="memid" {% if ',tw,' in item.Langu %} checked {%endif%}  >
+					<label  for="language_tw">繁體中文</label>
+				</div>
+				<div class="td checkbox checkbox-danger">
+					<input type="checkbox" name="language[]" id="language_en" value="en" class="memid" {% if ',en,' in item.Langu %} checked {%endif%} >
+					<label  for="language_en">英文版</label>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="div-tr single ">
+			<div class="div-td td-odd">會議主旨</div>
+			<div class="div-td td-even">
+				<input type="text" class="form-control" name="Subject" value="{{item.Subject}}"  placeholder="請輸入說明">
+			</div>
+		</div>
+		<div class="div-tr single ">
+			<div class="div-td td-odd">會議簡介</div>
+			<div class="div-td td-even">
+				<textarea rows="5" name="Subtitle" id="Subtitle" class="form-control" placeholder="請輸入會議簡介" >{{item.Subtitle}}</textarea>
+			</div>
+		</div>
+		<div class="div-tr single ">
+			<div class="div-td td-odd">會議主持</div>
+			<div class="div-td td-even">
+				{% if employees %}
+   					{% for row in employees %}
+				<div class="td checkbox checkbox-danger">
+					<input type="checkbox" name="Master[]" id="Master_{{ row.Eid }}" value="{{ row.Eid }}" class="memid" {% if row.Eid|stringformat:"s" in item.Master %} checked {%endif%} >
+					<label  for="Master_{{ row.Eid }}">{{ row.Name }}</label>
+				</div>
+					{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+		<div class="div-tr single ">
+			<div class="div-td td-odd">與會人員</div>
+			<div class="div-td td-even">
+				{% if employees %}
+   					{% for row in employees %}
+				<div class="td checkbox checkbox-danger">
+					<input type="checkbox" name="Participants[]" id="Participants_{{ row.Eid }}" value="{{ row.Eid }}" class="memid" {% if row.Eid|stringformat:"s" in item.Participants %} checked {%endif%} >
+					<label  for="Participants_{{ row.Eid }}">{{ row.Name }}</label>
+				</div>
+					{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+		<div class="div-tr single ">
+			<div class="div-td td-odd">會議內容</div>
+			<div class="div-td td-even">
+				<textarea rows="5" name="Contents" id="Contents" class="form-control" placeholder="請輸入會議內容" >{{item.Contents}}</textarea>
+			</div>
+		</div>
+		
+		
+		
+	</div>
+	<div class="infoSearchBtn">
+		{% if item.MMid %}
+		<button id="IsCheck" type="button">會議紀錄</button>
+		<button id="IsRoom" type="button">會議邀約</button>
+		{% endif%}
+		<button type ="button" onclick="document.location='/{{features}}/list'" value="回上頁">回上頁</button>
+		<button id="IsSend" type="button">送出</button>
+		<button type="reset">重填</button>
+		
+	</div>
+</form>
+
+<script type="text/javascript">
+	$("#IsRoom").click(function(){
+		window.open('/chatroom/invite/{{item.Secret}}/{{Eid}}');
+	});
+	$("#IsSend").click(function(){
+		$("#tform").submit();
+	});
+	$("#IsCheck").click(function(){
+		window.open('/meeting/checkrecord/{{item.MMid}}');
+	});
+</script>
+{%endfor%}
+<script type="text/javascript">
+	{% if msg %}
+	alert('{{msg}}')
+	document.location='/{{features}}/list';
+	{% endif%}
+</script>
+{% include "includeBtn/footer.html"%}

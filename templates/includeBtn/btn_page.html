@@ -1,0 +1,32 @@
+<div class="page">
+	<span>查詢結果 : 共 <?=(!empty($recordcount)?$recordcount:0) ?>筆  <?=(!empty($totalpage)?$totalpage:0) ?>頁，</span>
+	<ul>
+		<li><a data="1" class="pageno" style="cursor: pointer;" ><i class="fa fa-caret-left" aria-hidden="true"></i> 第一頁</a></li>
+		<li><a data="<?=($page - 1)?>" class="pageno" style="cursor: pointer;" ><i class="fa fa-caret-left" aria-hidden="true"></i> 上一頁</a></li>
+		<?
+		if((int)$page < 6){
+		    $MaxPage = ( (int)$totalpage > 9 ? 9 : $totalpage );
+		    for( $i=1 ; $i<=$MaxPage ; $i++ ){
+		?>
+		<li  <?=((int)$page==$i?'class="page-active" ':'')?> ><a data="<?=p?>" class="pageno" style="cursor: pointer;" ><?=p ?></a></li>
+		<?
+		    }
+		}else{
+		    $MinPage = $page - 4;
+		    $MaxPage = ( $page + 4 > $totalpage ?$totalpage: $page + 4);
+		    for( $i=$MinPage ; $i<=$MaxPage ; $i++ ){
+		?>
+		<li <?=((int)$page==$i?'class="page-active" ':'')?> ><a data="<?=p?>" class="pageno" style="cursor: pointer;" ><?=p ?></a></li>
+		<?
+    	    }
+		}
+		?>
+		<li><a data="<?=$page+1?>" class="pageno" style="cursor: pointer;" >下一頁 <i class="fa fa-caret-right" aria-hidden="true"></i></a></li>
+		<li><a data="<?=$totalpage?>" class="pageno" style="cursor: pointer;" >最後頁 <i class="fa fa-caret-right" aria-hidden="true"></i></a></li>
+	</ul>
+	到
+	<input type="text" id="Gopageno" >
+	頁
+	<button type="button" id="Gopage">Go</button>
+</div>
+<div class="clearfix"></div>

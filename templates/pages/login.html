@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+	{% load static %}
+	{% include "includeBtn/btn_head.html"%}
+</head>
+
+<body>
+	<div class="blok">
+		<div class="container indexTexContent">	
+			<div class="col-md-8 col-md-offset-2 ">
+                <div class="in_text">
+					<p class="title"></p>
+					<p class="subtitle">會議管理平台<br>管理系統</p>
+					<hr>
+				</div>
+				<div class="clearfix"></div>
+		
+				<div class="loginBtn">
+					<a href="#" data-toggle="modal" data-target="#smallModal1">登入</a>
+				</div>		
+			</div>
+		</div>		
+	</div>
+	{% include "includeBtn/btn_login.html"%}
+	{% include "includeBtn/btn_js.html"%}
+</body>
+<script>
+
+	{% if errmsg %}
+	alert('{{ errmsg }}')
+	{% endif %}
+
+	$("#Sendlogin").click(function(e){
+		let act = $("#act").val();
+		let pwd = $("#pwd").val();
+		if(act==""){alert('請輸入帳號');return false}
+		if(pwd==""){alert('請輸入密碼');return false}
+		$("#login_form").submit();
+	});
+	
+	function enterKeyDown(){
+		if(event.keyCode==13){
+			$("#Sendlogin").click();
+		}
+	}
+</script>
+</html>
+

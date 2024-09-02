@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE風格聊天室</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f0f0f0;
+        }
+        .chat-container {
+            margin-top: 50px;
+        }
+        .chat-box {
+            height: 500px;
+            overflow-y: scroll;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .message.sent {
+            flex-direction: row-reverse;
+            align-items: flex-end;
+            text-align: right;
+        }
+        .message.received {
+            flex-direction: row;
+            align-items: flex-start;
+            text-align: left;
+        }
+        .message .info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .message.sent .info {
+            flex-direction: row-reverse;
+            margin-left: auto;
+        }
+        .message img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 10px;
+        }
+        .message .bubble {
+            max-width: 80%; /* Set max width to 80% of the container */
+            padding: 10px 15px;
+            border-radius: 15px;
+            color: #ffffff;
+            word-wrap: break-word;
+            display: inline-block;
+        }
+        .message.sent .bubble {
+            background-color: #007aff;
+            color: #ffffff;
+            border-radius: 15px 15px 0 15px;
+        }
+        .message.received .bubble {
+            background-color: #e0e0e0;
+            color: #000000;
+            border-radius: 15px 15px 15px 0;
+        }
+        .message .sender-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .members-list {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .member-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .member-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .input-group {
+            margin-top: 10px;
+            position: relative;
+        }
+        .input-group .input-group-append {
+            cursor: pointer;
+        }
+        .input-group .input-group-text {
+            border-radius: 0 10px 10px 0;
+        }
+        .input-group .form-control {
+            border-radius: 10px 0 0 10px;
+        }
+        .mic-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+        .mic-container i {
+            font-size: 18px;
+        }
+        .audio-visualizer {
+            display: block;
+            margin-top: 10px;
+            height: 20px;
+            background-color: #007aff;
+            border-radius: 10px;
+            position: relative;
+        }
+        .audio-visualizer .bar {
+            height: 100%;
+            background-color: #ffffff;
+            width: 0;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container chat-container">
+        <div class="row">
+            <!-- Chat Box -->
+            <div class="col-md-8">
+                <div class="chat-box" id="chat-box">
+                    <!-- Messages will be loaded here by JavaScript -->
+										<div class="message received">
+						<div class="info">
+							<img src="11.jpg" alt="111">
+							<div>
+								<div class="sender-name">XXXXX</div>
+								<div class="bubble">XXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="message sent">
+						<div class="info">
+							<img src="11.jpg" alt="111">
+							<div>
+								<div class="sender-name">XXXXX</div>
+								<div class="bubble">XXXXXXX XXXXXXX XXXXXXXXXXX XXXXXXXXX XXXXXXXXXXX XXXXXXXXXX XXXXXXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXX XXXX</div>
+							</div>
+						</div>
+					</div>
+					<div class="message received">
+						<div class="info">
+							<img src="11.jpg" alt="111">
+							<div>
+								<div class="sender-name">XXXXX</div>
+								<div class="bubble">Doot是功能强大且迅速的HTML5聊天模板，使用Bootstrap5和JavaScript构建。可以添加新用户、创建频道或组、回复、转发、 复制和删除消息。在所有设备中都是完全响应式布局的。主要特色</div>
+							</div>
+						</div>
+					</div>
+					<div class="message sent">
+						<div class="info">
+							<img src="11.jpg" alt="111">
+							<div>
+								<div class="sender-name">XXXXX</div>
+								<div class="bubble">XXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="message received">
+						<div class="info">
+							<img src="11.jpg" alt="111">
+							<div>
+								<div class="sender-name">XXXXX</div>
+								<div class="bubble">XXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="message sent">
+						<div class="info">
+							<img src="11.jpg" alt="111">
+							<div>
+								<div class="sender-name">XXXXX</div>
+								<div class="bubble">XXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
+							</div>
+						</div>
+					</div>
+					<div class="message received">
+						<div class="info">
+							<img src="11.jpg" alt="111">
+							<div>
+								<div class="sender-name">XXXXX</div>
+								<div class="bubble">XXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
+							</div>
+						</div>
+					</div>
+					<div class="message sent">
+						<div class="info">
+							<img src="11.jpg" alt="111">
+							<div>
+								<div class="sender-name">XXXXX</div>
+								<div class="bubble">I want to create an app, that use Natural Language to query the database, so give me  STREAMLIT IMPLEMENTATION  if I want to create the following app:</div>
+							</div>
+						</div>
+					</div>
+                </div>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="message" placeholder="輸入訊息...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" id="send-message">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="mic-container" id="mic-button">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                </div>
+                <div class="audio-visualizer" id="audio-visualizer">
+                    <div class="bar" id="audio-bar"></div>
+                </div>
+            </div>
+            <!-- Members List -->
+            <div class="col-md-4">
+                <div class="members-list" id="members-list">
+                    <!-- Members will be loaded here by JavaScript -->
+										<div class="member-item">
+						<img src="11.jpg">
+						<div>
+							<div class="username">姓名：XXXXXX</div>
+							<div class="title">職稱:XXXX</div>
+						</div>
+					</div>
+					
+					<div class="member-item">
+						<img src="11.jpg">
+						<div>
+							<div class="username">姓名：XXXXXX</div>
+							<div class="title">職稱:XXXX</div>
+						</div>
+					</div>
+					<div class="member-item">
+						<img src="11.jpg">
+						<div>
+							<div class="username">姓名：XXXXXX</div>
+							<div class="title">職稱:XXXX</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        $(document).ready(function() {
+            function loadMessages() {
+                $.ajax({
+                    url: 'load_messages.php',
+                    method: 'GET',
+                    success: function(data) {
+                        $('#chat-box').html(data);
+                        scrollToBottom();
+                    }
+                });
+            }
+
+            function loadMembers() {
+                $.ajax({
+                    url: 'load_members.php',
+                    method: 'GET',
+                    success: function(data) {
+                        $('#members-list').html(data);
+                    }
+                });
+            }
+
+            function sendMessage() {
+                var message = $('#message').val();
+                if (message.trim() !== '') {
+                    $.ajax({
+                        url: 'send_message.php',
+                        method: 'POST',
+                        data: { message: message },
+                        success: function() {
+                            $('#message').val('');
+                            loadMessages();
+                        }
+                    });
+                }
+            }
+
+            function scrollToBottom() {
+                var chatBox = $('#chat-box');
+                chatBox.scrollTop(chatBox[0].scrollHeight);
+            }
+
+            function startRecording() {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+                        var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        var analyser = audioContext.createAnalyser();
+                        var source = audioContext.createMediaStreamSource(stream);
+                        source.connect(analyser);
+                        analyser.fftSize = 256;
+                        var bufferLength = analyser.frequencyBinCount;
+                        var dataArray = new Uint8Array(bufferLength);
+
+                        function updateVisualizer() {
+                            analyser.getByteFrequencyData(dataArray);
+                            var sum = 0;
+                            for (var i = 0; i < dataArray.length; i++) {
+                                sum += dataArray[i];
+                            }
+                            var average = sum / dataArray.length;
+                            $('#audio-bar').css('width', average + '%');
+                            requestAnimationFrame(updateVisualizer);
+                        }
+
+                        updateVisualizer();
+
+                        $('#mic-button').on('click', function() {
+                            $('#audio-visualizer').css('display','block');
+                        });
+                    });
+                } else {
+                    alert('你的瀏覽器不支援錄音功能。');
+                }
+            }
+
+            $('#send-message').click(function() {
+                sendMessage();
+            });
+
+            $('#message').keypress(function(e) {
+                if (e.which === 13) {
+                    sendMessage();
+                    e.preventDefault();
+                }
+            });
+
+            $('#mic-button').on('click', function() {
+                startRecording();
+            });
+
+            // Load messages and members every 1 second
+            setInterval(function() {
+                loadMessages();
+                loadMembers();
+            }, 1000);
+
+            loadMessages();
+            loadMembers();
+        });
+    </script>
+</body>
+</html>

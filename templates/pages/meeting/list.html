@@ -1,0 +1,44 @@
+﻿{% include "includeBtn/header.html"%}
+{% include "./btn_search.html"%}
+<div class="item_data">
+	<div class="div-table rwd-table">
+		<div class="div-tr infoDataBox ">
+			<div id="css-table" class="css-table">
+				<div class="thead">
+					<div class="tr">
+						<div class="th">no</div>
+						<div class="th">建檔日</div>
+						<div class="th">會議主題</div>
+						<div class="th">主持人</div>
+						<div class="th">會議日期</div>
+						<div class="th">與會人員</div>
+						<div class="th">刪除</div>
+					</div>
+				</div>				
+				<div class="tbody">
+					{% if results %} 
+   						{% for row in results %}
+					<a class="tr click">
+						<div class="td a"	data1="{{ row.MMid }}" data-th="編號"		>{{row.MMid}}</div>
+						<div class="td a"	data1="{{ row.MMid }}" data-th="建檔日"		>{{row.NDate|date:"Y-m-d"}}</div>
+						<div class="td a"	data1="{{ row.MMid }}" data-th="會議主題"	>{{row.Subject}}</div>
+						<div class="td a"	data1="{{ row.MMid }}" data-th="主持人"		>{{row.Master}}</div>
+						<div class="td a"	data1="{{ row.MMid }}" data-th="會議日期"	>{{row.Mdate|date:"Y-m-d"}}</div>
+						<div class="td a"	data1="{{ row.MMid }}" data-th="與會人員"	>{{row.Participants}}</div>
+						<div class="td del"	data1="{{ row.MMid }}" data-th="刪除"		><span style="color: red;cursor: pointer;">刪除</span></div>
+					</a>
+						{% endfor %}
+					{% else %}
+					<a class="tr click">
+						<div class="td a"	data1="1" data-th="">{{nodata}}</div>
+					</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>						
+	</div>
+	<div class="container-fluid insidePage">
+		
+	</div>
+</div>
+{% include "includeBtn/footer.html"%}

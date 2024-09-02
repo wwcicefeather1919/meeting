@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    {% load static %}
+    <meta http-equiv="refresh" content="10" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="60" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會議邀約與核查</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width:100%;
+        }
+        .members-list {
+            height: 500px;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .list-group {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <!-- Members List -->
+            <div class="col-md-8">
+                <div class="card members-list">
+                    <ul class="list-group list-group-flush text-center">
+                        {{msg}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

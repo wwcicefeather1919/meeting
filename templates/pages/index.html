@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+	{% load static %}
+	{% include "includeBtn/btn_head.html"%}
+	{% include "includeBtn/btn_head_pikaday.html"%}
+</head>
+
+<body>
+	<div class="page-container"> 
+		{% include "includeBtn/btn_header.html"%}
+		<div class="row row-offcanvas row-offcanvas-left">
+			<!-- sidebar -->
+			{% include "includeBtn/btn_menu.html"%}
+			<!-- main area -->
+			<div class="col-xs-12 col-sm-10 infoNewBox btLine">
+				 <!--<div class="breadcrumb2">
+					首頁 > 資訊看板
+				</div>-->
+				<div class="pageTitle">
+					資訊看板
+				</div>
+				<form>
+					<div class="item_data">
+						<div class="pageTitle">
+							
+						</div>
+						<div class="div-table rwd-table">
+							<div class="div-tr infoDataBox ">
+								<div id="css-table" class="css-table">
+									
+									
+								</div>
+							</div>						
+						</div>
+
+						<!----------表單----------->
+						<div class="div-table rwd-table inforationForm">
+							<div class="div-tr infoDataBox">
+								<div id="css-table" class="css-table">
+									
+								</div>
+							</div>						
+						</div>
+						<!----------end 表單----------->
+						<div class="container-fluid insidePage">
+
+						</div>
+					</div>
+				</form>
+			</div><!-- /.col-xs-12 main -->
+		</div><!--/.row-->
+	</div><!--/.page-container-->
+    <div class="big_screenft">{% include "includeBtn/btn_footer.html"%}</div>
+	{% include "includeBtn/btn_js.html"%}
+	{% include "includeBtn/btn_pikaday_js.html"%}
+</body>
+</html>

@@ -1,0 +1,159 @@
+.type-container{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid rgb(230, 230, 230);
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 25px;
+    .add{
+        width: 75px;
+        height: 50px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(to bottom, #ff9326 0%, #f97c00 73%);
+        cursor: pointer;
+        transition: all .3s;
+        &:hover{
+            background: linear-gradient(to bottom, #fda144 0%, #fd8914 73%);
+        }
+        i{
+            margin-right: 5px;
+        }
+        a{
+            color: white;
+        }
+    }
+    .content{
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 15px;
+        padding-right: 0;
+        .ps-title{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            a{
+                color: black;
+            }
+        }
+        .content-right{
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            input{
+                border: 1px solid rgba(155, 155, 155, 0.589);
+                outline: none;
+                width: 100px;
+                padding: 5px 10px;
+                padding-right: 0;
+            }
+            .stars{
+                background: rgb(231, 231, 231);
+                border: 1px solid rgba(155, 155, 155, 0.589);
+                padding: 5px 10px;
+                cursor: pointer;
+                transition: all .3s;
+                &:hover{
+                    background: rgb(247, 247, 247);
+                }
+                a{
+                    color: black;
+                }
+            }
+            .delete{
+                background: rgb(231, 231, 231);
+                border: 1px solid rgba(155, 155, 155, 0.589);
+                padding: 5px 10px;
+                cursor: pointer;
+                transition: all .3s;
+                &:hover{
+                    background: rgb(247, 247, 247);
+                }
+                a{
+                    color: black;
+                }
+            }
+
+        }
+    }
+    .type_button{
+        width: 50px;
+        background: #cccccc;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all .3s;
+        &:hover{
+            background: #e6e6e6;
+        }
+    }
+    .type-container{
+        margin-left: 60px;
+        border-left: none;
+        border-right: none;
+        border-bottom: 1px solid rgb(230, 230, 230);
+        margin-bottom: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all .5s;
+        &.active{
+            // max-height: 4000px;
+        }
+        .add{
+            background: linear-gradient(to bottom, #9ad035 0%, #87b82c 73%);
+            &:hover{
+                background: linear-gradient(to bottom, #aad161 0%, #8cb83c 73%);
+            }
+        }
+        .type-container{
+            margin-bottom: 0;
+            .add{
+                background: linear-gradient(to bottom, #E11B56 0%, #e11b4c 73%);
+                &:hover{
+                    background: linear-gradient(to bottom, #db4270 0%, #e2315d 73%);
+                }
+            }
+            .type-container{
+                margin-bottom: 0;
+                .add{
+                    background: linear-gradient(to bottom, #1bb3e1 0%, #1bc3e1 73%);
+                    &:hover{
+                        background: linear-gradient(to bottom, #42bcdb 0%, #31c7e2 73%);
+                    }
+                }
+                .type-container{
+                    margin-bottom: 0;
+                    .add{
+                        background: linear-gradient(to bottom, #e11b9f 0%, #e11bc0 73%);
+                        &:hover{
+                            background: linear-gradient(to bottom, #db42ba 0%, #e231d9 73%);
+                        }
+                    }
+                }
+                .type-container{
+                    margin-bottom: 0;
+                    .add{
+                        background: linear-gradient(to bottom, #e1a21b 0%, #e1c31b 73%);
+                        &:hover{
+                            background: linear-gradient(to bottom, #dbd142 0%, #dfe231 73%);
+                        }
+                    }
+                    .type-container{
+                        margin-bottom: 0;
+                        .add{
+                            background: linear-gradient(to bottom, #a21be1 0%, #b31be1 73%);
+                            &:hover{
+                                background: linear-gradient(to bottom, #b742db 0%, #cd31e2 73%);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

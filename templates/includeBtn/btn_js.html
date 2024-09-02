@@ -1,0 +1,285 @@
+{% load static %}
+<script src="{% static "js/IIE/jquery-ui.min.js"%}"></script>
+<script src="{% static "js/IIE/bootstrap.min.js"%}"></script>
+
+<!------aside--------->
+<script src="{% static "js/IIE/sub.js"%}"></script>
+
+<!----Carousel----->
+<script>  
+	$(".carousel").carousel({  
+		interval:3000  
+	})  
+</script> 
+
+
+<!----GoTop----->
+<script type="text/javascript">
+	$(function(){
+		$("#gotop").click(function(){
+			jQuery("html,body").animate({
+				scrollTop:0
+			},1000);
+		});
+		$(window).scroll(function() {
+			if ( $(this).scrollTop() > 300){
+				$('#gotop').fadeIn("fast");
+			} else {
+				$('#gotop').stop().fadeOut("fast");
+			}
+		});
+	});
+</script>
+    
+<!-------nav-------->
+<script src="{% static "/js/IIE/bootsnav.js"%}"></script>
+    
+    
+<script>
+$(".editor img").addClass("img-responsive mt15 mb15");
+$(".editor table").addClass("table");
+$(".editor table").wrap('<div class="table-responsive"></div>');
+</script>
+
+
+
+<script>
+	var $len = 16; // 超過16個字以"..."取代
+	$(".infoTable .info_table .tbody .td a p").each(function(){
+		if($(this).text().length > $len){
+			var $text=$(this).text().substring(0,$len-1)+"...";
+			$(this).text($text);
+		}
+	});
+</script>
+
+
+<!--------informationAdd.asp upload------->
+<script>
+	$(function() {
+		$(".add-file").click(function() {
+			$(".upload-lists").append('<div class="upload-item"><img src="" class="upload-image-file" style="display: none;" /><input type="file" name="uploadFile[]" /><button class="remove-item">刪除</button></div>');
+		});
+
+		$(this).on('change', 'input[name^=uploadFile]', function() {
+			var imagePreview = $(this).siblings('.upload-image-file');
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$(imagePreview).attr('src', e.target.result).show();
+			}
+			reader.readAsDataURL(this.files[0]);
+		})
+
+		$(this).on('click', '.remove-item', function() {
+			$(this).parents('.upload-item').remove();
+		});
+
+		$('#submit-upload').click(function() {
+			$(".upload-item input[name^=uploadFile]").remove();
+		});
+	})
+</script>
+
+
+<!-------- accountAdd.asp photo upload------->
+<script> 
+ $('#imageUpload').change(function(){			
+	readImgUrlAndPreview(this);
+		function readImgUrlAndPreview(input){
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$('#imagePreview').attr('src', e.target.result);
+				}
+			};
+			reader.readAsDataURL(input.files[0]);
+		}	
+	});
+</script>
+
+
+<!----search include open & close----->
+<script>
+$(window).resize(function(){
+	if ($(window).width() > 580){	
+		$("#subSearch").show();
+	}else  {
+		$("#subSearch").hide();
+	}
+});
+</script>
+
+<script>
+	$(document).ready(function(e) {		
+		$(".toggleBtn").click(function(){
+			if ($(".toggleContent").hasClass('aside-open')){
+				$(".toggleContent").removeClass('aside-open');
+			}else {
+				$(".toggleContent").addClass('aside-open');
+			}
+		})			
+	});		
+</script>
+
+<!----text limited----->
+<script>
+	var $len = 9; // 超過9個字以"..."取代
+	$(".limit9 p").each(function(){
+		if($(this).text().length > $len){
+			var $text=$(this).text().substring(0,$len-1)+"...";
+			$(this).text($text);
+		}
+	});
+</script>
+
+<!-------行事曆文字顏色選擇-------->
+<script>
+	var colorList = [ '000000', '993300', '333300', '003300', '003366', '000066', '333399', '333333', 
+	'660000', 'FF6633', '666633', '336633', '336666', '0066FF', '666699', '666666', 'CC3333', 'FF9933', '99CC33', '669966', '66CCCC', '3366FF', '663366', '999999', 'CC66FF', 'FFCC33', 'FFFF66', '99FF66', '99CCCC', '66CCFF', '993366', 'CCCCCC', 'FF99CC', 'FFCC99', 'FFFF99', 'CCffCC', 'CCFFff', '99CCFF', 'CC99FF', 'FFFFFF' ];
+	var picker = $('#color-picker');
+
+	for (var i = 0; i < colorList.length; i++ ) {
+		picker.append('<li class="color-item" data-hex="' + '#' + colorList[i] + '" style="background-color:' + '#' + colorList[i] + ';"></li>');
+	}
+
+	$('body').click(function () {
+		picker.fadeOut();
+	});
+
+	$('.call-picker').click(function(event) {
+		event.stopPropagation();
+		picker.fadeIn();
+		picker.children('li').hover(function() {
+			var codeHex = $(this).data('hex');
+
+			$('.color-holder').css('background-color', codeHex);
+			$('#pickcolor').val(codeHex);
+		});
+	});
+</script>
+
+
+<!---sudebar--->
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script>
+$(document).ready(function() {
+	$('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	});
+});
+</script>
+
+
+    
+<script>
+$(function(){
+	$("ul.dropdown-menu").hide(); //子選單(ul.subs)隱藏
+	$(".dropdown-toggle").click(function(){
+		$("ul.dropdown-menu").slideUp();
+		$(".dropdown-toggle").removeClass("open"); //移除在(.main)的class屬性(open)
+		if($("+ul",this).css("display")=="none"){
+			$("+ul",this).slideDown();
+			$(this).addClass("open"); //被點擊的元素新增一組class(open)
+		}
+	}).mouseover(function(){
+		$(this).addClass("rollover") //滑鼠移入這個元素時新增class(rollover)
+	}).mouseout(function(){
+		$(this).removeClass("rollover") //滑鼠移開這個元素時移除class(rollover)
+	});
+	//點擊主選單(.main) 子選單(ul.subs)向上滑動隱藏，移除主選單(.main)的class(open)，如果被點擊的這個元素相鄰的ul display=none 則向下滑動出相鄰的ul並新稱class(open)。
+});
+</script>
+
+
+<!---------modify圖片上傳--------->
+<script>
+	$('.upload-wrap input[type=file]').change(function(){
+		var id = $(this).attr("id");
+		var newimage = new FileReader();
+		newimage.readAsDataURL(this.files[0]);
+		newimage.onload = function(e){
+			$('.uploadpreview.' + id ).css('background-image', 'url(' + e.target.result + ')' );
+		}
+	});
+</script>
+
+
+<!-------分頁前往指定頁面-------->
+<script>
+	$("#Gopage").click(function(){
+		if($("#Gopageno").val()==""){
+			alert('請輸入前往頁面');
+		}else{
+			gopage($("#Gopageno").val());
+		}
+	});
+	$(".pageno").click(function(){
+		gopage($(this).attr('data'));
+	});
+	function gopage(t){
+		var url		= "";
+		var urlary	= [];
+		var p		= "";
+		var q		= "";
+		var qstr	= "";
+		var qary	= [];
+		url = location.href;
+		urlary = url.split("?");
+		for( k=0 ; k < urlary.length ; k++){
+			if(k==0){p=urlary[k];}
+			if(k==1){q=urlary[k];}
+		}
+		if( q!="" ){
+			if(q.indexOf('page_no')>=0){
+				qary = q.split("&");
+				for( k=0 ; k < qary.length ; k++){
+					if(qary[k].indexOf('page_no')==-1){
+						qstr += "&" + qary[k];
+					}
+				}
+				qstr = "page_no=" + t + qstr
+			}else{
+				qstr = "page_no=" + t + "&" + q
+			}
+			
+		}else{
+			qstr = "page_no=" + t ;
+		}
+		url = p + "?" + qstr;
+		document.location = url;
+	}
+	
+	$(".a").click(function(){
+		let ID = $(this).attr("data1");
+		document.location='/{{features}}/edit/'+ID;
+	});
+
+	$(".del").click(function(){
+		if(confirm("是否確定刪除該筆資料？")){
+			let ID = $(this).attr("data1");
+			document.location='/{{features}}/del/'+ID;
+		}
+	});
+	
+</script>
+
+<!--欄位滑過效果 
+<script>
+function over(x) {
+  x.style.backgroundColor="#ffecc8";
+}
+
+function out(x) {
+  x.style.backgroundColor="#fff";
+}
+</script>
+
+<!--欄位點下 
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".click").click(function(){
+  $("#show").toggle();
+  });
+});
+</script>
+-->
